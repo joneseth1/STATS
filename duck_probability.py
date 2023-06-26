@@ -14,35 +14,35 @@ def generate_duck_positions(n, radius):
     return positions
 
 def calculate_probability(n, sector_degree, num_simulations):
-    count_same_half = 0  # Number of cases where all ducks are in the same half
-    success_count = 0  # Number of successes
-    trial_count = 0  # Number of trials
+    count_same_half = 0  
+    success_count = 0 
+    trial_count = 0 
 
     for _ in range(num_simulations):
         positions = generate_duck_positions(n, radius)
         trial_count += 1
 
-        # Calculate the angle of each duck from the x-axis
+        #Calculates the angle of each duck from the x-axis
         angles = [math.atan2(y, x) for x, y in positions]
 
-        # Check if all ducks are in the same half-sector
+        #Checks if all ducks are in the same half-sector
         if all(abs(angle - angles[0]) <= math.radians(sector_degree) for angle in angles):
             count_same_half += 1
             success_count += 1
 
-        # Clear previous ducks
+        #Clear previous ducks
         canvas.delete("duck")
 
-        # Draw new ducks
+        #Draws new ducks
         for x, y in positions:
             canvas_x = center_x + x
             canvas_y = center_y - y
             canvas.create_oval(canvas_x - 3, canvas_y - 3, canvas_x + 3, canvas_y + 3, fill="blue", tags="duck")
 
-        # Update the canvas
+        #Update the canvas
         canvas.update()
 
-        # Update success, trial, and relative frequency labels
+        #Updates success, trial, and relative frequency labels
         success_label.config(text=f"Successes: {success_count}")
         trial_label.config(text=f"Trials: {trial_count}")
         frequency = success_count / trial_count if trial_count > 0 else 0
@@ -65,11 +65,11 @@ def calculate_button_click():
     except ValueError:
         messagebox.showerror("Error", "Please enter valid integers.")
 
-# Create GUI window
+#Create GUI window
 window = tk.Tk()
 window.title("Duck Probability Calculator")
 
-# Create GUI elements
+#Create GUI elements
 ducks_label = tk.Label(window, text="Enter the number of ducks:")
 ducks_label.pack()
 
@@ -103,7 +103,7 @@ canvas.pack()
 
 circle = canvas.create_oval(center_x - radius, center_y - radius, center_x + radius, center_y + radius, outline="black")
 
-# Labels for success, trial, and relative frequency
+#Labels for success, trial, and relative frequency
 success_label = tk.Label(window, text="Successes: 0")
 success_label.pack()
 
@@ -113,5 +113,5 @@ trial_label.pack()
 frequency_label = tk.Label(window, text="Relative Frequency: 0.0000")
 frequency_label.pack()
 
-# Run the GUI event loop
+#Run the GUI event loop
 window.mainloop()
